@@ -33,7 +33,7 @@ class _GameScreenState extends State<GameScreen> {
   Game game = Game();
   int turn = 0;
   String result = "";
-  List<int> scoreboard = [0,0,0,0,0,0,0,0];
+  List<int> scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
   @override
   void initState() {
     // TODO: implement initState
@@ -64,32 +64,35 @@ class _GameScreenState extends State<GameScreen> {
             width: boardWidth,
             height: boardWidth,
             child: GridView.count(
-              crossAxisCount: Game.boardlenght ~/3,
+              crossAxisCount: Game.boardlenght ~/ 3,
               padding: EdgeInsets.all(16.0),
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
               children: List.generate(Game.boardlenght, (index) {
                 return InkWell(
-                  onTap: gameOver?null: () {
-                    if(game.board![index] == ""){
-                      setState(() {
-                        game.board![index] = lastvalue;
-                        turn++;
-                        gameOver = game.winnerCheck(lastvalue, index, scoreboard, 3);
-                        if(gameOver){
-                          result = "$lastvalue wins".toUpperCase();
-                        }else if(!gameOver && turn == 9){
-                          result = "It's a Draw!".toUpperCase();
-                          gameOver = true;
-                        }
-                        if(lastvalue == "X") {
-                          lastvalue = "O";
-                        }else{
-                          lastvalue = "X";
-                        }
-                      });
-                    }
-                  },
+                  onTap: gameOver
+                      ? null
+                      : () {
+                          if (game.board![index] == "") {
+                            setState(() {
+                              game.board![index] = lastvalue;
+                              turn++;
+                              gameOver = game.winnerCheck(
+                                  lastvalue, index, scoreboard, 3);
+                              if (gameOver) {
+                                result = "$lastvalue wins".toUpperCase();
+                              } else if (!gameOver && turn == 9) {
+                                result = "It's a Draw!".toUpperCase();
+                                gameOver = true;
+                              }
+                              if (lastvalue == "X") {
+                                lastvalue = "O";
+                              } else {
+                                lastvalue = "X";
+                              }
+                            });
+                          }
+                        },
                   child: Container(
                     width: Game.blockSize,
                     height: Game.blockSize,
@@ -101,7 +104,9 @@ class _GameScreenState extends State<GameScreen> {
                       child: Text(
                         game.board![index],
                         style: TextStyle(
-                          color: game.board![index] == "X"? Colors.blue : Colors.pink,
+                          color: game.board![index] == "X"
+                              ? Colors.blue
+                              : Colors.pink,
                           fontSize: 64.0,
                         ),
                       ),
@@ -121,14 +126,14 @@ class _GameScreenState extends State<GameScreen> {
           ),
           SizedBox(height: 25.0),
           ElevatedButton.icon(
-            onPressed: (){
+            onPressed: () {
               setState(() {
                 game.board = Game.initGameBoard();
                 lastvalue = "X";
                 gameOver = false;
                 turn = 0;
                 result = "";
-                scoreboard = [0,0,0,0,0,0,0,0];
+                scoreboard = [0, 0, 0, 0, 0, 0, 0, 0];
               });
             },
             icon: Icon(Icons.replay),
